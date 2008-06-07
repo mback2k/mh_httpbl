@@ -1,0 +1,17 @@
+a:2:{s:4:"meta";a:3:{s:5:"title";s:0:"";s:5:"descr";s:0:"";s:7:"options";a:2:{s:10:"usageCount";N;s:19:"includeCodeAbstract";N;}}s:5:"files";a:1:{s:14:"MD5_7332a595c2";a:4:{s:8:"filename";s:21:"class.tx_mhhttpbl.php";s:8:"filesize";i:4504;s:6:"header";a:5:{s:4:"text";s:29:"
+
+http:BL blocking extension
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:45:"@author	Marc Hoersken <info@marc-hoersken.de>";i:1;s:14:"@package TYPO3";i:2;s:21:"@subpackage mh_httpbl";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:37:"Marc Hoersken <info@marc-hoersken.de>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:10:"mh_httpbl ";}}}s:3:"DAT";a:4:{i:1;a:8:{s:6:"header";s:19:"class tx_mhhttpbl {";s:5:"class";i:1;s:11:"parentClass";s:11:"tx_mhhttpbl";s:4:"cDat";a:5:{s:4:"text";s:29:"
+
+http:BL blocking extension
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:45:"@author	Marc Hoersken <info@marc-hoersken.de>";i:1;s:14:"@package TYPO3";i:2;s:21:"@subpackage mh_httpbl";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:37:"Marc Hoersken <info@marc-hoersken.de>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:10:"mh_httpbl ";}}}s:7:"content";s:0:"";s:12:"content_size";i:426;s:13:"content_lines";i:17;s:6:"atLine";i:34;}i:3;a:7:{s:6:"header";s:44:"function checkBlacklist (&$params, &$pObj) {";s:11:"parentClass";s:11:"tx_mhhttpbl";s:4:"cDat";a:3:{s:4:"text";s:100:"
+
+Determines if content should be outputted.
+Outputting content is done only if jumpUrl is NOT set.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:6:"object";i:1;s:25:"$_params: parameter array";}i:1;a:2:{i:0;s:6:"object";i:1;s:21:"$pObj: partent object";}}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}}s:7:"content";s:0:"";s:12:"content_size";i:291;s:13:"content_lines";i:11;s:6:"atLine";i:60;}i:5;a:4:{s:6:"header";s:21:"function runQuery() {";s:11:"parentClass";s:11:"tx_mhhttpbl";s:4:"cDat";a:3:{s:4:"text";s:68:"
+
+Sends a DNS request to dnsbl.httpbl.org and checks for bad users.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:7:"integer";i:1;s:8:"IP Score";}}s:6:"atLine";i:77;}i:7;a:7:{s:6:"header";s:24:"function stopOutput () {";s:11:"parentClass";s:11:"tx_mhhttpbl";s:4:"cDat";a:3:{s:4:"text";s:46:"
+
+Stops TYPO3 output and shows an error page.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}}s:7:"content";s:0:"";s:12:"content_size";i:1387;s:13:"content_lines";i:34;s:6:"atLine";i:104;}}}}}

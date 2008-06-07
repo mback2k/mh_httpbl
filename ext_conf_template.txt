@@ -1,0 +1,11 @@
+# cat=basic; type=string; label=Your httpBL Access Key: Access Keys are 12-alpha characters (no numbers). They are lower-case. Get one from httpbl.org
+accesskey = 
+
+# cat=basic; type=int [0-255]; label=Blocking type: IP type (bitfield) required for an IP to be blocked. 2 is recommended.
+type = 2
+
+# cat=basic; type=string; label=Blocking message: The message that is send to blocked users.
+message = <strong>You have been blocked.</strong><br />Your IP appears to be one the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###
+
+# cat=basic; type=boolean; label=Log debug information to cc_devlog: If enabled, logging info will be written to cc_devlog. So make sure you have this installed if you have this option checked.
+debug = 0
