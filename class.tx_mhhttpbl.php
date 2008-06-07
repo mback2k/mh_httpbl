@@ -45,11 +45,11 @@ class tx_mhhttpbl {
 		0 => 'Search Engine',
 		1 => 'Suspicious',
 		2 => 'Harvester',
-		3 => 'Suspicious & Harvester',
+		3 => 'Suspicious &amp; Harvester',
 		4 => 'Comment Spammer',
-		5 => 'Suspicious & Comment Spammer',
-		6 => 'Harvester & Comment Spammer',
-		7 => 'Suspicious & Harvester & Comment Spammer'
+		5 => 'Suspicious &amp; Comment Spammer',
+		6 => 'Harvester &amp; Comment Spammer',
+		7 => 'Suspicious &amp; Harvester &amp; Comment Spammer'
 	);
 
 	/**
@@ -109,7 +109,7 @@ class tx_mhhttpbl {
 			t3lib_div::devlog('blocking user: ' . $_SERVER['REMOTE_ADDR'], $this->extKey, 1);
 		
 		$stdMsg = '<strong>You have been blocked.</strong><br />
-		Your IP appears to be one the httpbl.org/projecthoneypot.org blacklist.<br />
+		Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br />
 		<br />
 		###REQUEST_IP###<br />
 		<br />
