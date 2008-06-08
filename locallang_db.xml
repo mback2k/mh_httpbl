@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'mh_httpbl'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_mhhttpbl_blocklog">Block Log</label>
+			<label index="tx_mhhttpbl_blocklog.block_ip">IP Address</label>
+			<label index="tx_mhhttpbl_blocklog.block_type">Type</label>
+			<label index="tx_mhhttpbl_blocklog.block_score">Score</label>
+			<label index="tx_mhhttpbl_whitelist">Whitelist</label>
+			<label index="tx_mhhttpbl_whitelist.whitelist_ip">IP Address</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="tx_mhhttpbl_blocklog">Sperrungs Protokoll</label>
+			<label index="tx_mhhttpbl_blocklog.block_ip">IP Adresse</label>
+			<label index="tx_mhhttpbl_blocklog.block_type">Type</label>
+			<label index="tx_mhhttpbl_blocklog.block_score">Score</label>
+			<label index="tx_mhhttpbl_whitelist">Weiße Liste</label>
+			<label index="tx_mhhttpbl_whitelist.whitelist_ip">IP Adresse</label>
+		</languageKey>
+	</data>
+</T3locallang>

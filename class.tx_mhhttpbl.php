@@ -60,7 +60,7 @@ class tx_mhhttpbl {
 	 * @param	object		$pObj: partent object
 	 * @return	void
 	 */
-	function checkBlacklist (&$params, &$pObj) {
+	function checkBlacklist(&$params, &$pObj) {
 		$this->params = &$params;
 		$this->pObj = &$pObj;
 		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
@@ -85,18 +85,24 @@ class tx_mhhttpbl {
 			return $this->type = -1;
 		
 		if (empty($_SERVER['REMOTE_ADDR']))
-			return $this->type = -1;
-		
+			return $this->type = -2;
+			
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', 'whitelist_ip = \''.mysql_escape_string($_SERVER['REMOTE_ADDR']).'\'');
+		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
+			return $this->type = -3;
+
 		$result = gethostbyname($this->config['accesskey'].implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).$this->domain);
 		list($first, $days, $score, $type) = explode('.', $result);
 		
 		if ($this->debug)
 			t3lib_div::devlog('dnsbl.httpbl.org result: ' . $result, $this->extKey, 1);
 		
-		if($first == 127)
-			return $this->type = $type;
-		else
-			return $this->type = -1;
+		if($first != 127)
+			return $this->type = -4;
+
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>mysql_escape_string($_SERVER['REMOTE_ADDR']), 'block_type'=>$type, 'block_score'=>$score));
+
+		return $this->type = $type;
 	}
 
 	/**
@@ -104,7 +110,7 @@ class tx_mhhttpbl {
 	 *
 	 * @return	void
 	 */
-	function stopOutput () {
+	function stopOutput() {
 		if ($this->debug)
 			t3lib_div::devlog('blocking user: ' . $_SERVER['REMOTE_ADDR'], $this->extKey, 1);
 		
@@ -136,6 +142,30 @@ class tx_mhhttpbl {
 </html>';
 
 		die($temp_content); // maybe there is a better way in TYPO3?
+	}
+	
+	/**
+	 * Hook content before caching.
+	 *
+	 * @param	object		$_params: parameter array
+	 * @param	object		$pObj: partent object
+	 * @return	void
+	 */
+	function addHoneyPot(&$params, &$pObj) {
+		$this->params = &$params;
+		$this->pObj = &$pObj;
+		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
+
+		if (!empty($this->config['quicklink'])) {
+			if (file_exists('clear.gif')) {
+				$content = '<img src="clear.gif" height="1" width="1" border="0" alt="" />';
+			} else {
+				$content = '<!-- TYPO3 Honey Pot -->';
+			}
+			
+			$pObj->content = str_replace('<body>', '<body><a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a>', $this->pObj->content);
+			$pObj->content = str_replace('</body>', '<a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a></body>', $this->pObj->content);
+		}
 	}
 }
 
