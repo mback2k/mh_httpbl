@@ -1,5 +1,6 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
+
 $TCA["tx_mhhttpbl_blocklog"] = array (
 	"ctrl" => array (
 		'title'     => 'LLL:EXT:mh_httpbl/locallang_db.xml:tx_mhhttpbl_blocklog',		
@@ -32,9 +33,8 @@ $TCA["tx_mhhttpbl_whitelist"] = array (
 	)
 );
 
-
 if (TYPO3_MODE == 'BE')	{
-		
 	t3lib_extMgm::addModule('tools','txmhhttpblM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
 }
+
 ?>

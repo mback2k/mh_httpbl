@@ -45,8 +45,6 @@ $TCA["tx_mhhttpbl_blocklog"] = array (
 	)
 );
 
-
-
 $TCA["tx_mhhttpbl_whitelist"] = array (
 	"ctrl" => $TCA["tx_mhhttpbl_whitelist"]["ctrl"],
 	"interface" => array (
@@ -72,4 +70,5 @@ $TCA["tx_mhhttpbl_whitelist"] = array (
 		"1" => array("showitem" => "")
 	)
 );
+
 ?>
