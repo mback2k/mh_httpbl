@@ -91,7 +91,7 @@ class tx_mhhttpbl {
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
 			return $this->type = -3;
 
-		$result = gethostbyname($this->config['accesskey'].implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).$this->domain);
+		$result = gethostbyname($this->config['accesskey'].'.'.implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).'.'.$this->domain);
 		list($first, $days, $score, $type) = explode('.', $result);
 		
 		if ($this->debug)
