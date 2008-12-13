@@ -40,6 +40,11 @@ class tx_mhhttpbl {
 	var $pObj = false;
 	var $config = false;
 	var $domain	= 'dnsbl.httpbl.org';
+	var $request = '';
+	var $result = '';
+	var $first = 0;
+	var $days = 0;
+	var $score = 0;
 	var $type = -1;
 	var $codes = array(
 		0 => 'Search Engine',
@@ -53,8 +58,7 @@ class tx_mhhttpbl {
 	);
 
 	/**
-	 * Determines if content should be outputted.
-	 * Outputting content is done only if jumpUrl is NOT set.
+	 * Hook page id lookup before rendering the content.
 	 *
 	 * @param	object		$_params: parameter array
 	 * @param	object		$pObj: partent object
@@ -64,10 +68,10 @@ class tx_mhhttpbl {
 		$this->params = &$params;
 		$this->pObj = &$pObj;
 		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
-		if ($this->config['debug']) {
-			$this->debug = true;
-		}
-		if ($this->runQuery() >= $this->config['type']) {
+		$this->debug = $this->config['debug'];
+		$this->runQuery();
+
+		if ($this->type >= $this->config['type']) {
 			$this->stopOutput();
 		}
 	}
@@ -80,29 +84,30 @@ class tx_mhhttpbl {
 	function runQuery() {
 		if ($this->debug)
 			t3lib_div::devlog('accesskey: ' . $this->config['accesskey'], $this->extKey, 1);
-		
+
 		if (empty($this->config['accesskey']))
 			return $this->type = -1;
-		
+
 		if (empty($_SERVER['REMOTE_ADDR']))
 			return $this->type = -2;
-			
+
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', 'whitelist_ip = \''.mysql_escape_string($_SERVER['REMOTE_ADDR']).'\'');
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
 			return $this->type = -3;
 
-		$result = gethostbyname($this->config['accesskey'].'.'.implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).'.'.$this->domain);
-		list($first, $days, $score, $type) = explode('.', $result);
-		
+		$this->request = $this->config['accesskey'].'.'.implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).'.'.$this->domain;
+		$this->result = gethostbyname($this->request);
+
+		if ($this->result != $this->request)
+			list($this->first, $this->days, $this->score, $this->type) = explode('.', $this->result);
+
 		if ($this->debug)
 			t3lib_div::devlog('dnsbl.httpbl.org result: ' . $result, $this->extKey, 1);
-		
-		if($first != 127)
+
+		if($this->first != 127)
 			return $this->type = -4;
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>mysql_escape_string($_SERVER['REMOTE_ADDR']), 'block_type'=>$type, 'block_score'=>$score));
-
-		return $this->type = $type;
+		return $this->type;
 	}
 
 	/**
@@ -113,20 +118,12 @@ class tx_mhhttpbl {
 	function stopOutput() {
 		if ($this->debug)
 			t3lib_div::devlog('blocking user: ' . $_SERVER['REMOTE_ADDR'], $this->extKey, 1);
-		
-		$stdMsg = '<strong>You have been blocked.</strong><br />
-		Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br />
-		<br />
-		###REQUEST_IP###<br />
-		<br />
-		###USER_TYPE###';
 
-		$message = $this->config['message'];
-		if (strcmp('', $message)) {
-			$message = $this->pObj->csConvObj->utf8_encode($message,$this->pObj->renderCharset);	// This page is always encoded as UTF-8
-		} else $message = $stdMsg;
-		$request_ip = '<strong>' . $_SERVER['REMOTE_ADDR'] . '</strong> (' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ')';
-		$message = str_replace('###REQUEST_IP###', $request_ip, $message);
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>mysql_escape_string($_SERVER['REMOTE_ADDR']), 'block_type'=>$this->type, 'block_score'=>$this->score));
+
+		$stdMsg = "<strong>You have been blocked.</strong><br />\nYour IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br />\n<br />\n###REQUEST_IP###<br />\n<br />\n###USER_TYPE###";
+		$message = (empty($this->config['message']) ? $stdMsg : $this->pObj->csConvObj->utf8_encode($message,$this->pObj->renderCharset));
+		$message = str_replace('###REQUEST_IP###', '<strong>' . $_SERVER['REMOTE_ADDR'] . '</strong> (' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ')', $message);
 		$message = str_replace('###USER_TYPE###', $this->codes[$this->type], $message);
 
 		$temp_content = '<?xml version="1.0" encoding="UTF-8"?>
