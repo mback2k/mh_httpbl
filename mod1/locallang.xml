@@ -11,6 +11,7 @@
 			<label index="function2">Whitelist</label>
 			<label index="time">Time</label>
 			<label index="delete">Delete</label>
+			<label index="clear_log">Delete all entries</label>
 			<label index="move_whitelist">Whitelist</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -19,6 +20,7 @@
 			<label index="function2">Weiße Liste</label>
 			<label index="time">Zeit</label>
 			<label index="delete">Löschen</label>
+			<label index="clear_log">Alle Einträge löschen</label>
 			<label index="move_whitelist">Weiße Liste</label>
 		</languageKey>
 	</data>

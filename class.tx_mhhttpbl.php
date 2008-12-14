@@ -104,7 +104,7 @@ class tx_mhhttpbl {
 		if ($this->debug)
 			t3lib_div::devlog('dnsbl.httpbl.org result: ' . $result, $this->extKey, 1);
 
-		if($this->first != 127)
+		if($this->first != 127 || !array_key_exists($this->type, $this->codes))
 			return $this->type = -4;
 
 		return $this->type;
@@ -169,4 +169,5 @@ class tx_mhhttpbl {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mh_httpbl/class.tx_mhhttpbl.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mh_httpbl/class.tx_mhhttpbl.php']);
 }
+
 ?>

@@ -22,20 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-// DEFAULT initialization of a module [BEGIN]
 unset($MCONF);
+
 require_once('conf.php');
 require_once($BACK_PATH.'init.php');
 require_once($BACK_PATH.'template.php');
+require_once(PATH_t3lib.'class.t3lib_scbase.php');
 
 $LANG->includeLLFile('EXT:mh_httpbl/mod1/locallang.xml');
 $LANG->includeLLFile('EXT:mh_httpbl/locallang_db.xml');
-require_once(PATH_t3lib.'class.t3lib_scbase.php');
-$BE_USER->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
-// DEFAULT initialization of a module [END]
-
-
+$BE_USER->modAccess($MCONF,1);
+$TBE_TEMPLATE->backPath = $BACK_PATH;
 
 /**
  * Module 'Honey Pot (http:BL)' for the 'mh_httpbl' extension.
@@ -175,14 +172,16 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 				$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'tstamp < '.(time()-(60*60*24*7)));
 				
 				if (t3lib_div::_GP('move_whitelist')) {
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_blocklog', 'uid = '.intval(t3lib_div::_GP('move_whitelist')));
-					$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_whitelist', array('cruser_id'=>$BE_USER->user['uid'], 'crdate'=>time(), 'tstamp'=>time(), 'whitelist_ip'=>$row['block_ip']));
+					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_whitelist', array('cruser_id'=>$BE_USER->user['uid'], 'crdate'=>time(), 'tstamp'=>time(), 'whitelist_ip'=>t3lib_div::_GP('move_whitelist')));
+					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'block_ip = '.$GLOBALS['TYPO3_DB']->fullQuoteStr(t3lib_div::_GP('move_whitelist'), 'tx_mhhttpbl_blocklog'));
 				} else if (t3lib_div::_GP('delete')) {
-					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'uid = '.intval(t3lib_div::_GP('delete')));
+					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'block_ip = '.$GLOBALS['TYPO3_DB']->fullQuoteStr(t3lib_div::_GP('delete'), 'tx_mhhttpbl_blocklog'));
+				} else if (t3lib_div::_GP('clear_log')) {
+					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', '');
 				}
-				
+
 				$content = '
+					<a href="?clear_log=true" title="'.$LANG->getLL('clear_log').'">'.$LANG->getLL('clear_log').'</a>
 					<table border="0" cellspacing="0" cellpadding="0" class="typo3-dblist">
 						<tr>
 							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('time').'</b></td>
@@ -210,7 +209,7 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 							<td><img src="clear.gif" width="10" height="1"></td>
 							<td valign="top">'.$this->codes[$row['block_score']].' ('.$row['block_score'].')</td>
 							<td><img src="clear.gif" width="10" height="1"></td>
-							<td valign="top" align="right"><a href="?move_whitelist='.$row['uid'].'" title="'.$LANG->getLL('move_whitelist').'"><img src="'.$BACK_PATH.'sysext/t3skin/icons/gfx/move_record.gif" alt="'.$LANG->getLL('move_whitelist').'" /></a><a href="?delete='.$row['uid'].'" title="'.$LANG->getLL('delete').'"><img src="'.$BACK_PATH.'sysext/t3skin/icons/gfx/garbage.gif" alt="'.$LANG->getLL('delete').'" /></a></td>
+							<td valign="top" align="right"><a href="?move_whitelist='.$row['block_ip'].'" title="'.$LANG->getLL('move_whitelist').'"><img src="'.$BACK_PATH.'sysext/t3skin/icons/gfx/move_record.gif" alt="'.$LANG->getLL('move_whitelist').'" /></a><a href="?delete='.$row['block_ip'].'" title="'.$LANG->getLL('delete').'"><img src="'.$BACK_PATH.'sysext/t3skin/icons/gfx/garbage.gif" alt="'.$LANG->getLL('delete').'" /></a></td>
 						</tr>
 						';
 					}
@@ -282,8 +281,6 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 		}
 	}
 }
-
-
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mh_httpbl/mod1/index.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mh_httpbl/mod1/index.php']);
