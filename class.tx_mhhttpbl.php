@@ -40,6 +40,7 @@ class tx_mhhttpbl {
 	var $pObj = false;
 	var $config = false;
 	var $domain	= 'dnsbl.httpbl.org';
+	var $content = '';
 	var $request = '';
 	var $result = '';
 	var $first = 0;
@@ -71,8 +72,11 @@ class tx_mhhttpbl {
 		$this->debug = $this->config['debug'];
 		$this->runQuery();
 
-		if ($this->type >= $this->config['type']) {
+		if (($this->type >= $this->config['type']) && (($this->score >= $this->config['score']) || (empty($this->config['score'])))) {
 			$this->stopOutput();
+		} else {
+			$this->pObj->fe_user->setKey('ses','tx_mhhttpbl_user', true);
+			$this->pObj->fe_user->storeSessionData();
 		}
 	}
 	
@@ -95,6 +99,9 @@ class tx_mhhttpbl {
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
 			return $this->type = -3;
 
+		if ($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_user') == true || (($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_hash') == t3lib_div::_GET('continue')) && (strlen(t3lib_div::_GET('continue')) > 0)))
+			return $this->type = -4;
+
 		$this->request = $this->config['accesskey'].'.'.implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).'.'.$this->domain;
 		$this->result = gethostbyname($this->request);
 
@@ -105,7 +112,7 @@ class tx_mhhttpbl {
 			t3lib_div::devlog('dnsbl.httpbl.org result: ' . $result, $this->extKey, 1);
 
 		if($this->first != 127 || !array_key_exists($this->type, $this->codes))
-			return $this->type = -4;
+			return $this->type = -5;
 
 		return $this->type;
 	}
@@ -121,26 +128,34 @@ class tx_mhhttpbl {
 
 		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>mysql_escape_string($_SERVER['REMOTE_ADDR']), 'block_type'=>$this->type, 'block_score'=>$this->score));
 
-		$stdMsg = "<strong>You have been blocked.</strong><br />\nYour IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br />\n<br />\n###REQUEST_IP###<br />\n<br />\n###USER_TYPE###";
-		$message = (empty($this->config['message']) ? $stdMsg : $this->pObj->csConvObj->utf8_encode($message,$this->pObj->renderCharset));
+		$usrHash = t3lib_div::shortMD5(serialize($_SERVER));
+		$stdMsg = "<strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###";
+		$message = (!empty($this->config['message']) ? $stdMsg : $this->pObj->csConvObj->utf8_encode($message, $this->pObj->renderCharset));
 		$message = str_replace('###REQUEST_IP###', '<strong>' . $_SERVER['REMOTE_ADDR'] . '</strong> (' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ')', $message);
 		$message = str_replace('###USER_TYPE###', $this->codes[$this->type], $message);
 
-		$temp_content = '<?xml version="1.0" encoding="UTF-8"?>
+		$this->pObj->fe_user->setKey('ses','tx_mhhttpbl_hash', $usrHash);
+		$this->pObj->fe_user->setKey('ses','tx_mhhttpbl_user', false);
+		$this->pObj->fe_user->storeSessionData();
+
+		$this->content = '
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>TYPO3 - http:BL</title>
 	</head>
-	<body style="background-color:white; font-family:Verdana,Arial,Helvetica,sans-serif; color:#cccccc; text-align:center;">
+	<body style="background: #fff; color: #ccc; font-family: \'Verdana\', \'Arial\', sans-serif; text-align: center;">
 		'.$message.'
 	</body>
-</html>';
-
-		die($temp_content); // maybe there is a better way in TYPO3?
+	<script type="text/javascript">
+		window.location.replace(window.location.href.split(\'?\')[0] + \'?continue='.$usrHash.'\');
+	</script>
+</html>
+		';
 	}
-	
+
 	/**
 	 * Hook content before caching.
 	 *
@@ -153,13 +168,16 @@ class tx_mhhttpbl {
 		$this->pObj = &$pObj;
 		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 
-		if (!empty($this->config['quicklink'])) {
-			if (file_exists('clear.gif')) {
-				$content = '<img src="clear.gif" height="1" width="1" border="0" alt="" />';
-			} else {
-				$content = '<!-- TYPO3 Honey Pot -->';
-			}
-			
+		if (file_exists('clear.gif')) {
+			$content = '<img src="clear.gif" height="1" width="1" border="0" alt="" />';
+		} else {
+			$content = '<!-- TYPO3 Honey Pot -->';
+		}
+
+		if (!empty($this->content)) {
+			$pObj->content = trim($this->content);
+			$pObj->no_cache = true;
+		} else if (!empty($this->config['quicklink'])) {		
 			$pObj->content = str_replace('<body>', '<body><a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a>', $this->pObj->content);
 			$pObj->content = str_replace('</body>', '<a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a></body>', $this->pObj->content);
 		}

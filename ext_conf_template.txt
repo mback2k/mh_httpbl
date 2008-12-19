@@ -4,7 +4,10 @@ accesskey =
 # cat=basic; type=int [0-255]; label=Blocking type: IP type (bitfield) required for an IP to be blocked. 2 is recommended.
 type = 2
 
-# cat=basic; type=string; label=Blocking message: The message that is send to blocked users.
+# cat=basic; type=int [0-255]; label=Blocking score: IP score (bitfield) required for an IP to be blocked if type is greater than zero, 0 disables the additional check. 0 is recommended.
+score = 0
+
+# cat=basic; type=string; label=Blocking message: The message that is send to blocked users. ###REQUEST_IP### and ###USER_TYPE### are valid placeholders.
 message = <strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###
 
 # cat=basic; type=string; label=Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added after <body> and before </body> tags.

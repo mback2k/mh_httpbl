@@ -1,5 +1,10 @@
 (add new changes on top of this file)
 
+08-12-19 Marc Hoersken  <info@marc-hoersken.de>
+
+	* Added Javascript to redirect false-positives (human people).
+	* The block page is now outputted through TYPO3.
+
 08-12-14 Marc Hoersken  <info@marc-hoersken.de>
 
 	* Added link to delete all entries from the block log.

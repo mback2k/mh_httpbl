@@ -9,7 +9,9 @@ $TCA["tx_mhhttpbl_blocklog"] = array (
 		'crdate'    => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'default_sortby' => "ORDER BY crdate",
-		'iconfile'  => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_mhhttpbl_blocklog.gif',
+		'iconfile'  => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
+		'hideTable' => 1,
+		'rootLevel' => 1,
 	),
 	"interface" => array (
 		"showRecordFieldList" => "block_ip, block_type, block_score",
@@ -63,7 +65,9 @@ $TCA["tx_mhhttpbl_whitelist"] = array (
 		'crdate'    => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'default_sortby' => "ORDER BY crdate",
-		'iconfile'  => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_mhhttpbl_whitelist.gif',
+		'iconfile'  => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
+		'hideTable' => 1,
+		'rootLevel' => 1,
 	),
 	"interface" => array (
 		"showRecordFieldList" => "whitelist_ip",
