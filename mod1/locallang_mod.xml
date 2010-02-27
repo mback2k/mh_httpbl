@@ -6,12 +6,12 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="mlang_tabs_tab">Honey Pot (http:BL)</label>
+			<label index="mlang_tabs_tab">Honey Pot</label>
 			<label index="mlang_labels_tabdescr">Honey Pot (http:BL) - Block log and whitelist management</label>
 			<label index="mlang_labels_tablabel">Honey Pot (http:BL)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="mlang_tabs_tab">Honey Pot (http:BL)</label>
+			<label index="mlang_tabs_tab">Honey Pot</label>
 			<label index="mlang_labels_tabdescr">Honey Pot (http:BL) - Block Protokoll und Verwaltung der weißen Liste</label>
 			<label index="mlang_labels_tablabel">Honey Pot (http:BL)</label>
 		</languageKey>

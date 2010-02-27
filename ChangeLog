@@ -1,5 +1,11 @@
 (add new changes on top of this file)
 
+10-02-27 Marc Hoersken  <info@marc-hoersken.de>
+
+	* Made quicklink HTML use TYPO3 for rendering. (thanks Jigal) 
+	* New function mod to view unique list of blocked IPs. (thanks Myroslav)
+	* Made all table views in the backend sortable by table header.
+
 08-12-19 Marc Hoersken  <info@marc-hoersken.de>
 
 	* Added Javascript to redirect false-positives (human people).

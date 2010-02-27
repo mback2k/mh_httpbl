@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Marc Hoersken <info@marc-hoersken.de>
+*  (c) 2010 Marc Hoersken <info@marc-hoersken.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,6 +38,7 @@ $TBE_TEMPLATE->backPath = $BACK_PATH;
  * Module 'Honey Pot (http:BL)' for the 'mh_httpbl' extension.
  *
  * @author	Marc Hoersken <info@marc-hoersken.de>
+ * @author  Myroslav Holyak <vbhjckfd@gmail.com>
  * @package	TYPO3
  * @subpackage	tx_mhhttpbl
  */
@@ -75,6 +76,7 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 			'function' => Array (
 				'1' => $LANG->getLL('function1'),
 				'2' => $LANG->getLL('function2'),
+				'3' => $LANG->getLL('function3'),
 			)
 		);
 		parent::menuConfig();
@@ -167,10 +169,15 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 	 */
 	function moduleContent()	{
 		global $LANG, $BACK_PATH, $BE_USER, $TYPO3_DB;
+
+		if (t3lib_div::_GP('block_ip')) {
+			$this->MOD_SETTINGS['function'] = 1;
+		}
+
 		switch((string)$this->MOD_SETTINGS['function'])	{
 			case 1:
 				$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'tstamp < '.(time()-(60*60*24*7)));
-				
+
 				if (t3lib_div::_GP('move_whitelist')) {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_whitelist', array('cruser_id'=>$BE_USER->user['uid'], 'crdate'=>time(), 'tstamp'=>time(), 'whitelist_ip'=>t3lib_div::_GP('move_whitelist')));
 					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_blocklog', 'block_ip = '.$GLOBALS['TYPO3_DB']->fullQuoteStr(t3lib_div::_GP('move_whitelist'), 'tx_mhhttpbl_blocklog'));
@@ -184,19 +191,29 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 					<a href="?clear_log=true" title="'.$LANG->getLL('clear_log').'">'.$LANG->getLL('clear_log').'</a>
 					<table border="0" cellspacing="0" cellpadding="0" class="typo3-dblist">
 						<tr>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('time').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('time').' <a href="?sort=tstamp&amp;order=asc">&uArr;</a><a href="?sort=tstamp&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_ip').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_ip').' <a href="?sort=block_ip&amp;order=asc">&uArr;</a><a href="?sort=block_ip&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_type').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_type').' <a href="?sort=block_type&amp;order=asc">&uArr;</a><a href="?sort=block_type&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_score').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_score').' <a href="?sort=block_score&amp;order=asc">&uArr;</a><a href="?sort=block_score&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
 							<td valign="top" align="right" class="c-headLineTable"><b>'.$LANG->getLL('move_whitelist').' &amp; '.$LANG->getLL('delete').'</b></td>
 						</tr>
 				';
-				
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_blocklog', 'tstamp >= '.(time()-(60*60*24*7)));
+
+				if (t3lib_div::_GP('block_ip')) {
+					$where = "block_ip = '". t3lib_div::_GP('block_ip') ."'";
+				} else {
+					$where = '';
+				}
+				if (t3lib_div::_GP('sort') && t3lib_div::_GP('order')) {
+					$order = t3lib_div::_GP('sort').' '.strtoupper(t3lib_div::_GP('order'));
+				} else {
+					$order = 'tstamp DESC';
+				}
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_blocklog', $where, '', $order);
 				if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
 					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 						$content .= '
@@ -214,11 +231,11 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 						';
 					}
 				}
-				
+
 				$content .= '
 					</table>
 				';
-				
+
 				$this->content.=$this->doc->section($LANG->getLL('function1'),$content,0,1);
 			break;
 			case 2:
@@ -227,7 +244,7 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 				} else if (t3lib_div::_GP('delete')) {
 					$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_mhhttpbl_whitelist', 'uid = '.intval(t3lib_div::_GP('delete')));
 				}
-				
+
 				$content = '
 					<table border="0" cellspacing="2" cellpadding="0">
 						<tr>
@@ -245,19 +262,24 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 						</tr>
 					</table>
 				';
-				
+
 				$content .= '
 					<table border="0" cellspacing="0" cellpadding="0" class="typo3-dblist">
 						<tr>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('time').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('time').' <a href="?sort=tstamp&amp;order=asc">&uArr;</a><a href="?sort=tstamp&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
-							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_whitelist.whitelist_ip').'</b></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_whitelist.whitelist_ip').' <a href="?sort=whitelist_ip&amp;order=asc">&uArr;</a><a href="?sort=whitelist_ip&amp;order=desc">&dArr;</a></b></td>
 							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
 							<td valign="top" align="right" class="c-headLineTable"><b>'.$LANG->getLL('delete').'</b></td>
 						</tr>
 				';
-				
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', '');
+
+				if (t3lib_div::_GP('sort') && t3lib_div::_GP('order')) {
+					$order = t3lib_div::_GP('sort').' '.strtoupper(t3lib_div::_GP('order'));
+				} else {
+					$order = 'tstamp DESC';
+				}
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', '', '', $order);
 				if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
 					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 						$content .= '
@@ -271,12 +293,46 @@ class tx_mhhttpbl_module1 extends t3lib_SCbase {
 						';
 					}
 				}
-				
+
 				$content .= '
 					</table>
 				';
-				
+
 				$this->content.=$this->doc->section($LANG->getLL('function2'),$content,0,1);
+			break;
+
+			case 3:
+				$content = '
+					<table border="0" cellspacing="0" cellpadding="0" class="typo3-dblist">
+						<tr>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('tx_mhhttpbl_blocklog.block_ip').' <a href="?sort=block_ip&amp;order=asc">&uArr;</a><a href="?sort=block_ip&amp;order=desc">&dArr;</a></b></td>
+							<td class="c-headLineTable"><img src="clear.gif" width="10" height="1"></td>
+							<td valign="top" class="c-headLineTable"><b>'.$LANG->getLL('count').' <a href="?sort=count&amp;order=asc">&uArr;</a><a href="?sort=count&amp;order=desc">&dArr;</a></b></td>
+						</tr>
+				';
+
+				if (t3lib_div::_GP('sort') && t3lib_div::_GP('order')) {
+					$order = t3lib_div::_GP('sort').' '.strtoupper(t3lib_div::_GP('order'));
+				} else {
+					$order = 'count DESC';
+				}
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('block_ip, COUNT(block_ip) as count', 'tx_mhhttpbl_blocklog', '', 'block_ip', $order);
+				if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
+					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+						$content .= '
+						<tr>
+							<td valign="top"><a title="'.$LANG->getLL('lookup').'" href="http://www.projecthoneypot.org/ip_'.$row['block_ip'].'" target="_blank">'.$row['block_ip'].'</a></td>
+							<td><img src="clear.gif" width="10" height="1"></td>
+							<td valign="top"><a title="'.$LANG->getLL('details').'" href="?block_ip='.$row['block_ip'].'">'.$row['count'].'</a></td>
+						</tr>
+						';
+					}
+				}
+				$content .= '
+					</table>
+				';
+
+				$this->content.=$this->doc->section($LANG->getLL('function3'),$content,0,1);
 			break;
 		}
 	}

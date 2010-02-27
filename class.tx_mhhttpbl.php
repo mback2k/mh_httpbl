@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Marc Hoersken <info@marc-hoersken.de>
+*  (c) 2010 Marc Hoersken <info@marc-hoersken.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,6 +30,7 @@
  * http:BL blocking extension
  *
  * @author	Marc Hoersken <info@marc-hoersken.de>
+ * @author  Jigal van Hemert <jigal@xs4all.nl>
  * @package TYPO3
  * @subpackage mh_httpbl
  */
@@ -86,33 +87,41 @@ class tx_mhhttpbl {
 	 * @return	integer		IP type
 	 */
 	function runQuery() {
-		if ($this->debug)
+		if ($this->debug) {
 			t3lib_div::devlog('accesskey: ' . $this->config['accesskey'], $this->extKey, 1);
+		}
 
-		if (empty($this->config['accesskey']))
+		if (empty($this->config['accesskey'])) {
 			return $this->type = -1;
+		}
 
-		if (empty($_SERVER['REMOTE_ADDR']))
+		if (empty($_SERVER['REMOTE_ADDR'])) {
 			return $this->type = -2;
+		}
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', 'whitelist_ip = \''.mysql_escape_string($_SERVER['REMOTE_ADDR']).'\'');
-		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
+		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
 			return $this->type = -3;
+		}
 
-		if ($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_user') == true || (($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_hash') == t3lib_div::_GET('continue')) && (strlen(t3lib_div::_GET('continue')) > 0)))
+		if ($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_user') == true || (($this->pObj->fe_user->getKey('ses','tx_mhhttpbl_hash') == t3lib_div::_GET('continue')) && (strlen(t3lib_div::_GET('continue')) > 0))) {
 			return $this->type = -4;
+		}
 
 		$this->request = $this->config['accesskey'].'.'.implode('.', array_reverse(explode('.', $_SERVER['REMOTE_ADDR']))).'.'.$this->domain;
 		$this->result = gethostbyname($this->request);
 
-		if ($this->result != $this->request)
+		if ($this->result != $this->request) {
 			list($this->first, $this->days, $this->score, $this->type) = explode('.', $this->result);
+		}
 
-		if ($this->debug)
+		if ($this->debug) {
 			t3lib_div::devlog('dnsbl.httpbl.org result: ' . $result, $this->extKey, 1);
+		}
 
-		if($this->first != 127 || !array_key_exists($this->type, $this->codes))
+		if($this->first != 127 || !array_key_exists($this->type, $this->codes)) {
 			return $this->type = -5;
+		}
 
 		return $this->type;
 	}
@@ -168,18 +177,48 @@ class tx_mhhttpbl {
 		$this->pObj = &$pObj;
 		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 
-		if (file_exists('clear.gif')) {
-			$content = '<img src="clear.gif" height="1" width="1" border="0" alt="" />';
-		} else {
-			$content = '<!-- TYPO3 Honey Pot -->';
+		if (!empty($this->config['quicklink'])) {
+			$imgconf = array(
+				'file' => 'EXT:mh_httpbl/mod1/clear.gif',
+				'file.' => array(
+					'maxH' => 1,
+					'maxW' => 1,
+				),
+				'stdWrap.' => array(
+					'typolink.' => array(
+						'parameter' => $this->config['quicklink'],
+						'title' => '',
+						'wrap' => '<div style="display: none;">|</div>',
+					),
+				),
+			);
+			/*
+				Create file with clear.gif
+				Wrap it with a link to the Quicklink
+				Wrap it in a div to comply with XHTML 1.0 Strict
+			*/
+			$cObj = t3lib_div::makeInstance('tslib_cObj');
+			$cObj->start('', 'tt_content');
+			/*
+				Create a cObj to do the work of generating (X)HTML
+			*/
+			if (file_exists(t3lib_extMgm::extPath('mh_httpbl').'mod1/clear.gif')) {
+				$content = $cObj->IMAGE($imgconf);
+			} else {
+				$content = $cObj->typoLink('<!--&nbsp;-->', $imgconf['stdWrap']['typolink']);
+				/*
+					If no clear.gif is found use a part of the configuration to wrap a link and div around
+					a comment...
+				*/
+			}
 		}
 
 		if (!empty($this->content)) {
 			$pObj->content = trim($this->content);
 			$pObj->no_cache = true;
 		} else if (!empty($this->config['quicklink'])) {		
-			$pObj->content = str_replace('<body>', '<body><a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a>', $this->pObj->content);
-			$pObj->content = str_replace('</body>', '<a href="'.$this->config['quicklink'].'" title="" style="display: none;">'.$content.'</a></body>', $this->pObj->content);
+			$pObj->content = str_replace('<body>', '<body>'.$content, $this->pObj->content);
+			$pObj->content = str_replace('</body>', $content.'</body>', $this->pObj->content);
 		}
 	}
 }
