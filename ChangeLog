@@ -1,5 +1,9 @@
 (add new changes on top of this file)
 
+13-09-06 Marc Hoersken  <info@marc-hoersken.de>
+
+	* Updated for TYPO3 6.0
+
 10-02-27 Marc Hoersken  <info@marc-hoersken.de>
 
 	* Made quicklink HTML use TYPO3 for rendering. (thanks Jigal) 
