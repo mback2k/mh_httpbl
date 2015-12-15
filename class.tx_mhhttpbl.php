@@ -99,7 +99,9 @@ class tx_mhhttpbl {
 			return $this->type = -2;
 		}
 
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', 'whitelist_ip = \''.mysql_escape_string($_SERVER['REMOTE_ADDR']).'\'');
+		$remote_addr = $_SERVER['REMOTE_ADDR'];
+		$remote_addr_quoted = $GLOBALS['TYPO3_DB']->fullQuoteStr($remote_addr, 'tx_mhhttpbl_whitelist');
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_mhhttpbl_whitelist', 'whitelist_ip = '.$remote_addr_quoted);
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
 			return $this->type = -3;
 		}
@@ -135,12 +137,13 @@ class tx_mhhttpbl {
 		if ($this->debug)
 			t3lib_div::devlog('blocking user: ' . $_SERVER['REMOTE_ADDR'], $this->extKey, 1);
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>mysql_escape_string($_SERVER['REMOTE_ADDR']), 'block_type'=>$this->type, 'block_score'=>$this->score));
+		$remote_addr = $_SERVER['REMOTE_ADDR'];
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', array('crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>$remote_addr, 'block_type'=>$this->type, 'block_score'=>$this->score));
 
 		$usrHash = t3lib_div::shortMD5(serialize($_SERVER));
 		$stdMsg = "<strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###";
 		$message = (!empty($this->config['message']) ? $stdMsg : $this->pObj->csConvObj->utf8_encode($message, $this->pObj->renderCharset));
-		$message = str_replace('###REQUEST_IP###', '<strong>' . $_SERVER['REMOTE_ADDR'] . '</strong> (' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ')', $message);
+		$message = str_replace('###REQUEST_IP###', '<strong>' . $remote_addr . '</strong> (' . gethostbyaddr($remote_addr) . ')', $message);
 		$message = str_replace('###USER_TYPE###', $this->codes[$this->type], $message);
 
 		$this->pObj->fe_user->setKey('ses','tx_mhhttpbl_hash', $usrHash);
