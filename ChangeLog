@@ -1,12 +1,5 @@
 (add new changes on top of this file)
 
-16-05-28 Marc Hoersken  <info@marc-hoersken.de>
-
-	* Updated for TYPO3 6.2.
-	* Fix TYPO3-EXT-SA-2015-021: SQL Injection. (thanks Nicole Cordes)
-	* Fix deprecation notice exception by using fullQuoteStr instead.
-	* Fix possible Cross-Site Scripting by escaping remote addr and host. (thanks Nicole Cordes)
-
 13-09-06 Marc Hoersken  <info@marc-hoersken.de>
 
 	* Updated for TYPO3 6.0

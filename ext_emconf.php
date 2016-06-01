@@ -1,47 +1,39 @@
 <?php
 
-/***************************************************************
+/**
  * Extension Manager/Repository config file for ext "mh_httpbl".
  *
- * Auto generated 06-09-2013 15:27
+ * Auto generated 31-05-2016 12:37
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
  * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
+ */
 
-$EM_CONF[$_EXTKEY] = array (
+$EM_CONF[$_EXTKEY] = array(
 	'title' => 'http:BL Blocking',
 	'description' => 'Implements the http:BL blocking into TYPO3. Block spam bots and other "bad users" from your websites. More information at httpbl.org',
 	'category' => 'misc',
-	'shy' => 0,
+	'shy' => 1,
 	'version' => '1.1.8',
-	'dependencies' => '',
-	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => 'mod1',
 	'state' => 'stable',
-	'uploadfolder' => 0,
+	'uploadfolder' => 1,
 	'createDirs' => '',
 	'modify_tables' => '',
-	'clearcacheonload' => 0,
+	'clearcacheonload' => 1,
 	'lockType' => '',
 	'author' => 'Marc Hoersken',
 	'author_email' => 'info@marc-hoersken.de',
 	'author_company' => '',
-	'CGLcompliance' => NULL,
-	'CGLcompliance_note' => NULL,
-	'constraints' => array (
-		'depends' => array (
-			'php' => '4.3.0-0.0.0',
-			'typo3' => '4.0.0-6.2.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array (
+	'CGLcompliance' => '',
+	'CGLcompliance_note' => '',
+	'constraints' => array(
+		'depends' => array(
+			'typo3' => '4.5.0-6.0.99',
 		),
 	),
 );
 
-?>
