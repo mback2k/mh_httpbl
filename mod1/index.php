@@ -26,8 +26,10 @@ unset($MCONF);
 
 require_once('conf.php');
 require_once($BACK_PATH.'init.php');
-require_once($BACK_PATH.'template.php');
-require_once(PATH_t3lib.'class.t3lib_scbase.php');
+if (version_compare(TYPO3_branch, '6.2', '<')) {
+	require_once($BACK_PATH.'template.php');
+	require_once(PATH_t3lib.'class.t3lib_scbase.php');
+}
 
 $LANG->includeLLFile('EXT:mh_httpbl/mod1/locallang.xml');
 $LANG->includeLLFile('EXT:mh_httpbl/locallang_db.xml');
