@@ -14,13 +14,13 @@ $EM_CONF[$_EXTKEY] = array(
 	'title' => 'http:BL Blocking',
 	'description' => 'Implements the http:BL blocking into TYPO3. Block spam bots and other "bad users" from your websites. More information at httpbl.org',
 	'category' => 'misc',
-	'shy' => 1,
-	'version' => '1.1.8',
+	'shy' => 0,
+	'version' => '1.1.9',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => 'mod1',
 	'state' => 'stable',
-	'uploadfolder' => 1,
+	'uploadfolder' => 0,
 	'createDirs' => '',
 	'modify_tables' => '',
 	'clearcacheonload' => 1,
@@ -30,9 +30,14 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'constraints' => array(
-		'depends' => array(
-			'typo3' => '4.5.0-6.0.99',
+	'constraints' => array (
+		'depends' => array (
+			'php' => '4.3.0-0.0.0',
+			'typo3' => '4.0.0-6.2.99',
+		),
+		'conflicts' => array (
+		),
+		'suggests' => array (
 		),
 	),
 );
