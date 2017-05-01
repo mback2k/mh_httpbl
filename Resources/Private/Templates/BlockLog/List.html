@@ -1,0 +1,53 @@
+<f:layout name="Backend"/>
+
+This Template is responsible for creating a table of domain objects.
+
+<f:section name="content">
+	<h1><f:translate key="blocklog.title" default="Listing for blocked data" /></h1>
+	<f:flashMessages/>
+
+	<f:comment>
+		Filter section
+	</f:comment>
+	<f:render partial="Filters/BlockLog/Index" arguments="{demand: demand}"/>
+
+	<f:comment>
+		Listing of all blocked entries
+	</f:comment>
+	<f:be.widget.paginate objects="{entries}" as="paginatedEntries" configuration="{itemsPerPage: 50, insertBelow: 1}">
+		<div class="table-fit">
+			<table class="table table-striped table-hover">
+				<thead>
+				<tr>
+					<th>
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'time\')}', sortField: 'crdate', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+					<th class="col-title">
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'ipAddress\')}', sortField: 'ip', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+					<th>
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'type\')}', sortField: 'type', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+					<th>
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'score\')}', sortField: 'score', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+					<th class="col-control"><f:translate key="blocklog.actions" default="Whitelist &amp; delete" /></th>
+				</tr>
+				</thead>
+				<tbody>
+					<f:for each="{paginatedEntries}" as="entry">
+						<f:render partial="BlockLog/ListRow" arguments="{entry: entry}" />
+					</f:for>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5">
+							<f:count subject="{entries}"/>
+							<f:translate key="entries" default="entries" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</f:be.widget.paginate>
+</f:section>

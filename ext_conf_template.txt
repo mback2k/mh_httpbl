@@ -10,8 +10,8 @@ score = 0
 # cat=basic; type=string; label=Blocking message: The message that is send to blocked users. ###REQUEST_IP### and ###USER_TYPE### are valid placeholders.
 message = <strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###
 
-# cat=basic; type=string; label=Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added after <body> and before </body> tags.
+# cat=basic; type=string; label=Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added before </body> tag.
 quicklink = 
 
-# cat=basic; type=boolean; label=Log debug information to cc_devlog: If enabled, logging info will be written to cc_devlog. So make sure you have this installed if you have this option checked.
+# cat=basic; type=boolean; label=Log debug information via devLog(): If enabled, logging info will be written to devlog.
 debug = 0

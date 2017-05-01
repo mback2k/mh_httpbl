@@ -1,0 +1,27 @@
+
+# ==============================================
+# Persistence object mapping configuration
+# ==============================================
+config.tx_extbase.persistence.classes {
+	Webenergy\MhHttpbl\Domain\Model\BlockLog {
+		mapping {
+			tableName = tx_mhhttpbl_blocklog
+			columns {
+				tstamp.mapOnProperty = tstamp
+				crdate.mapOnProperty = crdate
+				cruser_id.mapOnProperty = cruserId
+				block_ip.mapOnProperty = ip
+				block_type.mapOnProperty = type
+				block_score.mapOnProperty = score
+			}
+		}
+	}
+	Webenergy\MhHttpbl\Domain\Model\Whitelist {
+		mapping {
+			tableName = tx_mhhttpbl_whitelist
+			columns {
+				whitelist_ip.mapOnProperty = ip
+			}
+		}
+	}
+}
