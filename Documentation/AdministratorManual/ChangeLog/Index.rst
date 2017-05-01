@@ -31,6 +31,11 @@ Version  Changes
 ===========  =======================================================================
 Date         Changes
 ===========  =======================================================================
+2016-07-30   - Updated for TYPO3 6.2.
+2016-05-31   - Fix TYPO3-EXT-SA-2015-021: SQL Injection. (thanks Nicole Cordes)
+             - Fix TYPO3-EXT-SA-2016-016: Cross-Site Scripting. (thanks Nicole Cordes)
+             - Fix deprecation notice exception by using fullQuoteStr instead.
+2013-09-06   - Updated for TYPO3 6.0
 2010-02-27   - Made quicklink HTML use TYPO3 for rendering. (thanks Jigal)
              - New function mod to view unique list of blocked IPs. (thanks Myroslav)
              - Made all table views in the backend sortable by table header.
