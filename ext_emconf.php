@@ -23,5 +23,8 @@ $EM_CONF['mh_httpbl'] = [
             'suggests' =>
                 [
                 ]
-        ]
+        ],
+    'autoload' => [
+        'psr-4' => ['Webenergy\\MhHttpbl\\' => 'Classes']
+    ]
 ];
