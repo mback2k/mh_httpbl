@@ -16,10 +16,12 @@ namespace Webenergy\MhHttpbl\Controller;
 
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use Webenergy\MhHttpbl\Domain\Model\Demand;
 use Webenergy\MhHttpbl\Domain\Model\Whitelist;
+use Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository;
 
 /**
  * Class WhitelistController
@@ -31,8 +33,7 @@ class WhitelistController extends BackendController
     /**
      * whitelistRepository
      *
-     * @var \Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository
-     * @inject
+     * @var WhitelistRepository
      */
     protected $whitelistRepository;
 
@@ -115,5 +116,13 @@ class WhitelistController extends BackendController
         $messageQueue->addMessage($message);
 
         $this->forward('list');
+    }
+
+    /**
+     * @param WhitelistRepository $whitelistRepository
+     */
+    public function injectWhitelistRepository(WhitelistRepository $whitelistRepository)
+    {
+        $this->whitelistRepository = $whitelistRepository;
     }
 }
