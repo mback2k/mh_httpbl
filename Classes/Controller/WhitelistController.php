@@ -19,9 +19,6 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use Webenergy\MhHttpbl\Domain\Model\Demand;
-use Webenergy\MhHttpbl\Domain\Model\Whitelist;
-use Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository;
 
 /**
  * Class WhitelistController
@@ -33,7 +30,7 @@ class WhitelistController extends BackendController
     /**
      * whitelistRepository
      *
-     * @var WhitelistRepository
+     * @var \Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository
      */
     protected $whitelistRepository;
 
@@ -44,7 +41,7 @@ class WhitelistController extends BackendController
      * @param string $sortField
      * @param int $sortRev
      */
-    public function listAction(Demand $demand = null, $sortField = '', $sortRev = 0)
+    public function listAction(\Webenergy\MhHttpbl\Domain\Model\Demand $demand = null, $sortField = '', $sortRev = 0)
     {
         if ($sortField) {
             $this->whitelistRepository->setDefaultOrderings([
@@ -67,10 +64,10 @@ class WhitelistController extends BackendController
     /**
      * action delete
      *
-     * @param Whitelist $whitelist
+     * @param \Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist
      * @return void
      */
-    public function deleteAction(Whitelist $whitelist)
+    public function deleteAction(\Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist)
     {
         $message = GeneralUtility::makeInstance(FlashMessage::class,
             'The IP address ' . $whitelist->getIp() . ' has been removed from the whitelist.',
@@ -91,10 +88,10 @@ class WhitelistController extends BackendController
     /**
      * action add
      *
-     * @param Whitelist $whitelist
+     * @param \Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist
      * @return void
      */
-    public function addAction(Whitelist $whitelist)
+    public function addAction(\Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist)
     {
         $message = GeneralUtility::makeInstance(FlashMessage::class,
             'The IP address ' . $whitelist->getIp() . ' has been added to the whitelist.',
@@ -119,9 +116,9 @@ class WhitelistController extends BackendController
     }
 
     /**
-     * @param WhitelistRepository $whitelistRepository
+     * @param \Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository $whitelistRepository
      */
-    public function injectWhitelistRepository(WhitelistRepository $whitelistRepository)
+    public function injectWhitelistRepository(\Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository $whitelistRepository)
     {
         $this->whitelistRepository = $whitelistRepository;
     }

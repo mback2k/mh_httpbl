@@ -19,11 +19,6 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use Webenergy\MhHttpbl\Domain\Model\BlockLog;
-use Webenergy\MhHttpbl\Domain\Model\Demand;
-use Webenergy\MhHttpbl\Domain\Model\Whitelist;
-use Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository;
-use Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository;
 
 /**
  * Class BlockLogController
@@ -35,14 +30,14 @@ class BlockLogController extends BackendController
     /**
      * blockLogRepository
      *
-     * @var BlockLogRepository
+     * @var \Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository
      */
     protected $blockLogRepository;
 
     /**
      * whitelistRepository
      *
-     * @var WhitelistRepository
+     * @var \Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository
      */
     protected $whitelistRepository;
 
@@ -53,7 +48,7 @@ class BlockLogController extends BackendController
      * @param string $sortField
      * @param int $sortRev
      */
-    public function listAction(Demand $demand = null, $sortField = '', $sortRev = 0)
+    public function listAction(\Webenergy\MhHttpbl\Domain\Model\Demand $demand = null, $sortField = '', $sortRev = 0)
     {
         if ($sortField) {
             $this->blockLogRepository->setDefaultOrderings([
@@ -77,10 +72,10 @@ class BlockLogController extends BackendController
     /**
      * action delete
      *
-     * @param BlockLog $blockLog
+     * @param \Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog
      * @return void
      */
-    public function deleteAction(BlockLog $blockLog)
+    public function deleteAction(\Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog)
     {
         $message = GeneralUtility::makeInstance(FlashMessage::class,
             'The IP adress ' . $blockLog->getIp() . ' has been removed from the list of blocked IPs.',
@@ -101,10 +96,10 @@ class BlockLogController extends BackendController
     /**
      * action move
      *
-     * @param BlockLog $blockLog
+     * @param \Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog
      * @return void
      */
-    public function moveAction(BlockLog $blockLog)
+    public function moveAction(\Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog)
     {
         $message = GeneralUtility::makeInstance(FlashMessage::class,
             'The IP adress ' . $blockLog->getIp() . ' has been moved to the whitelist.',
@@ -115,7 +110,7 @@ class BlockLogController extends BackendController
         $tstamp = new \DateTime();
         $tstamp->setTimestamp($GLOBALS['SIM_ACCESS_TIME']);
 
-        $whitelist = new Whitelist();
+        $whitelist = new \Webenergy\MhHttpbl\Domain\Model\Whitelist();
         $whitelist->setIp($blockLog->getIp());
         $whitelist->setCrdate($tstamp);
         $whitelist->setTstamp($tstamp);
@@ -133,17 +128,17 @@ class BlockLogController extends BackendController
     }
 
     /**
-     * @param BlockLogRepository $blockLogRepository
+     * @param \Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository $blockLogRepository
      */
-    public function injectBlockLogRepository(BlockLogRepository $blockLogRepository)
+    public function injectBlockLogRepository(\Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository $blockLogRepository)
     {
         $this->blockLogRepository = $blockLogRepository;
     }
 
     /**
-     * @param WhitelistRepository $whitelistRepository
+     * @param \Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository $whitelistRepository
      */
-    public function injectWhitelistRepository(WhitelistRepository $whitelistRepository)
+    public function injectWhitelistRepository(\Webenergy\MhHttpbl\Domain\Repository\WhitelistRepository $whitelistRepository)
     {
         $this->whitelistRepository = $whitelistRepository;
     }

@@ -15,7 +15,6 @@ namespace Webenergy\MhHttpbl\Controller;
  */
 
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository;
 
 /**
  * Class IpOnlyController
@@ -27,7 +26,7 @@ class IpOnlyController extends BackendController
     /**
      * blockLogRepository
      *
-     * @var BlockLogRepository
+     * @var \Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository
      */
     protected $blockLogRepository;
 
@@ -58,9 +57,9 @@ class IpOnlyController extends BackendController
     }
 
     /**
-     * @param BlockLogRepository $blockLogRepository
+     * @param \Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository $blockLogRepository
      */
-    public function injectBlockLogRepository(BlockLogRepository $blockLogRepository)
+    public function injectBlockLogRepository(\Webenergy\MhHttpbl\Domain\Repository\BlockLogRepository $blockLogRepository)
     {
         $this->blockLogRepository = $blockLogRepository;
     }
