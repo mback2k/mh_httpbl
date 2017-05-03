@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2017-04-26T15:11:13Z"
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-05-03T15:11:13Z"
           product-name="mh_httpbl">
         <header/>
         <body>
@@ -24,36 +24,6 @@
             </trans-unit>
             <trans-unit id="status_overview">
                 <source>Status</source>
-            </trans-unit>
-            <trans-unit id="lookup">
-                <source>View on Honey Pot a</source>
-            </trans-unit>
-            <trans-unit id="type">
-                <source>Type a</source>
-            </trans-unit>
-            <trans-unit id="type.0">
-                <source>Search Engine a</source>
-            </trans-unit>
-            <trans-unit id="type.1">
-                <source>Suspicious a</source>
-            </trans-unit>
-            <trans-unit id="type.2">
-                <source>Harvester a</source>
-            </trans-unit>
-            <trans-unit id="type.3">
-                <source>Suspicious &amp; Harvester a</source>
-            </trans-unit>
-            <trans-unit id="type.4">
-                <source>Comment Spammer a</source>
-            </trans-unit>
-            <trans-unit id="type.5">
-                <source>Suspicious &amp; Comment Spammer a</source>
-            </trans-unit>
-            <trans-unit id="type.6">
-                <source>Harvester &amp; Comment Spammer a</source>
-            </trans-unit>
-            <trans-unit id="type.7">
-                <source>Suspicious &amp; Harvester &amp; Comment Spammer a</source>
             </trans-unit>
         </body>
     </file>
