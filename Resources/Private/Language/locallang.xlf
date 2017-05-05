@@ -125,7 +125,7 @@
                 <source>Blocking message: The message that is send to blocked users. ###REQUEST_IP### and ###USER_TYPE### are valid placeholders.</source>
             </trans-unit>
             <trans-unit id="extensionManager.quicklink">
-                <source>Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added before &amp;lt;/body&amp;gt; tag.</source>
+                <source>Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added before &lt;/body&gt; tag.</source>
             </trans-unit>
             <trans-unit id="extensionManager.debug">
                 <source>Log debug information via devLog(): If enabled, logging info will be written to devlog.</source>
