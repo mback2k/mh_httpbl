@@ -14,6 +14,7 @@ namespace Webenergy\MhHttpbl\Hooks;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -227,7 +228,7 @@ class FrontendHooks
             ->execute();
         #$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', ['crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>$remote_addr, 'block_type'=>$this->type, 'block_score'=>$this->score]);
 
-        $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
+        $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::setConverter::class);
         $usrHash = GeneralUtility::shortMD5(serialize($_SERVER));
         $stdMsg = "<strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###";
         $message = (empty($this->config['message']) ? $stdMsg : $charsetConverter->utf8_encode($this->config['message'], 'utf-8'));
