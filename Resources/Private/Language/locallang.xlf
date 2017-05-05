@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2017-04-26T15:11:13Z"
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:11:13Z"
           product-name="mh_httpbl">
         <header/>
         <body>
@@ -105,9 +105,33 @@
             <trans-unit id="status.section.quicklink">
                 <source>Quicklink</source>
             </trans-unit>
+            <trans-unit id="status.section.quicklink.test">
+                <source>Test quicklink</source>
+            </trans-unit>
             <trans-unit id="status.section.debug">
                 <source>Debug</source>
             </trans-unit>
+
+            <trans-unit id="extensionManager.accesskey">
+                <source>Your httpBL Access Key: Access Keys are 12-alpha characters (no numbers). They are lower-case. Get one from httpbl.org</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.type">
+                <source>Blocking type: IP type (bitfield) required for an IP to be blocked. 2 is recommended.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.score">
+                <source>Blocking score: IP score (bitfield) required for an IP to be blocked if type is greater than zero, 0 disables the additional check. 0 is recommended.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.message">
+                <source>Blocking message: The message that is send to blocked users. ###REQUEST_IP### and ###USER_TYPE### are valid placeholders.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.quicklink">
+                <source>Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added before &amp;lt;/body&amp;gt; tag.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.debug">
+                <source>Log debug information via devLog(): If enabled, logging info will be written to devlog.</source>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>
