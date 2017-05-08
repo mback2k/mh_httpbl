@@ -14,13 +14,7 @@ namespace Webenergy\MhHttpbl\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Doctrine\DBAL\Query\QueryBuilder;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Storage\Typo3DbQueryParser;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class BlockLogRepository

@@ -103,5 +103,4 @@ class Whitelist extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->ip = $ip;
     }
-
 }

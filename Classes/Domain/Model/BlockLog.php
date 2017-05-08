@@ -165,5 +165,4 @@ class BlockLog extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->count = $count;
     }
-
 }
