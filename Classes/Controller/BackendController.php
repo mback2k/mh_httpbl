@@ -48,7 +48,7 @@ abstract class BackendController extends ActionController
     /**
      * @var array
      */
-    protected $settings = array();
+    protected $settings = [];
 
     /**
      *
@@ -66,8 +66,6 @@ abstract class BackendController extends ActionController
      * Initialize the view
      *
      * @param ViewInterface $view The view
-     *
-     * @return void
      */
     public function initializeView(ViewInterface $view)
     {
@@ -144,7 +142,6 @@ abstract class BackendController extends ActionController
         }
         $menu->addMenuItem($menuItem);
 
-
         $this->view->getModuleTemplate()->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
     }
 
@@ -159,7 +156,7 @@ abstract class BackendController extends ActionController
         $setVars = $this->request->hasArgument('setVars') ? $this->request->getArgument('setVars') : [];
         if (count($getVars) === 0) {
             $modulePrefix = strtolower('tx_' . $this->request->getControllerExtensionName() . '_' . $moduleName);
-            $getVars = array('id', 'M', $modulePrefix);
+            $getVars = ['id', 'M', $modulePrefix];
         }
         $shortcutButton = $buttonBar->makeShortcutButton()
             ->setModuleName($moduleName)

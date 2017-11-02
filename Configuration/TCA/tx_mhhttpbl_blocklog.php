@@ -9,7 +9,7 @@ return [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'default_sortby' => 'ORDER BY crdate',
-        #'iconfile' => 'EXT:mh_httpbl/Resources/Public/Icons/blocklog.gif',
+        //'iconfile' => 'EXT:mh_httpbl/Resources/Public/Icons/blocklog.gif',
         'hideTable' => 0,
         'rootLevel' => 1,
     ],

@@ -65,11 +65,11 @@ class WhitelistController extends BackendController
      * action delete
      *
      * @param \Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist
-     * @return void
      */
     public function deleteAction(\Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist)
     {
-        $message = GeneralUtility::makeInstance(FlashMessage::class,
+        $message = GeneralUtility::makeInstance(
+            FlashMessage::class,
             'The IP address ' . $whitelist->getIp() . ' has been removed from the whitelist.',
             $whitelist->getIp() . ' has been deleted',
             FlashMessage::OK
@@ -89,11 +89,11 @@ class WhitelistController extends BackendController
      * action add
      *
      * @param \Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist
-     * @return void
      */
     public function addAction(\Webenergy\MhHttpbl\Domain\Model\Whitelist $whitelist)
     {
-        $message = GeneralUtility::makeInstance(FlashMessage::class,
+        $message = GeneralUtility::makeInstance(
+            FlashMessage::class,
             'The IP address ' . $whitelist->getIp() . ' has been added to the whitelist.',
             $whitelist->getIp() . ' has been added',
             FlashMessage::OK

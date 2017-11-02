@@ -115,7 +115,6 @@ class FrontendHooks
      *
      * @param array $params parameter array
      * @param TypoScriptFrontendController $pObj partent object
-     * @return void
      */
     public function checkBlacklist(&$params, &$pObj)
     {
@@ -136,7 +135,7 @@ class FrontendHooks
     /**
      * Sends a DNS request to dnsbl.httpbl.org and checks for bad users.
      *
-     * @return integer IP type
+     * @return int IP type
      */
     private function runQuery()
     {
@@ -198,8 +197,6 @@ class FrontendHooks
 
     /**
      * Stops TYPO3 output and shows an error page.
-     *
-     * @return void
      */
     private function stopOutput()
     {
@@ -226,11 +223,11 @@ class FrontendHooks
                 ]
             )
             ->execute();
-        #$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', ['crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>$remote_addr, 'block_type'=>$this->type, 'block_score'=>$this->score]);
+        //$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_mhhttpbl_blocklog', ['crdate'=>time(), 'tstamp'=>time(), 'block_ip'=>$remote_addr, 'block_type'=>$this->type, 'block_score'=>$this->score]);
 
         $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
         $usrHash = GeneralUtility::shortMD5(serialize($_SERVER));
-        $stdMsg = "<strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###";
+        $stdMsg = '<strong>You have been blocked.</strong><br />Your IP appears to be on the httpbl.org/projecthoneypot.org blacklist.<br /><br />###REQUEST_IP###<br /><br />###USER_TYPE###';
         $message = (empty($this->config['message']) ? $stdMsg : $charsetConverter->utf8_encode($this->config['message'], 'utf-8'));
         $message = str_replace('###REQUEST_IP###', '<strong>' . $remote_addr_html . '</strong> (' . $remote_host_html . ')', $message);
         $message = str_replace('###USER_TYPE###', $this->codes[$this->type], $message);
@@ -269,7 +266,6 @@ class FrontendHooks
      *
      * @param array $params parameter array
      * @param  TypoScriptFrontendController $pObj partent object
-     * @return void
      */
     public function addHoneyPot(&$params, &$pObj)
     {
@@ -299,7 +295,7 @@ class FrontendHooks
             */
             /** @var ContentObjectRenderer $cObj */
             $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-            $cObj->start('', 'tt_content');
+            $cObj->start([], 'tt_content');
             // Create a cObj to do the work of generating (X)HTML
             if (file_exists(ExtensionManagementUtility::extPath('mh_httpbl') . 'Resources/Public/Images/clear.gif')) {
                 $content = $cObj->cObjGetSingle('IMAGE', $imgConfig);

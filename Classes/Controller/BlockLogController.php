@@ -73,11 +73,11 @@ class BlockLogController extends BackendController
      * action delete
      *
      * @param \Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog
-     * @return void
      */
     public function deleteAction(\Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog)
     {
-        $message = GeneralUtility::makeInstance(FlashMessage::class,
+        $message = GeneralUtility::makeInstance(
+            FlashMessage::class,
             'The IP adress ' . $blockLog->getIp() . ' has been removed from the list of blocked IPs.',
             $blockLog->getIp() . ' has been deleted',
             FlashMessage::OK
@@ -97,11 +97,11 @@ class BlockLogController extends BackendController
      * action move
      *
      * @param \Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog
-     * @return void
      */
     public function moveAction(\Webenergy\MhHttpbl\Domain\Model\BlockLog $blockLog)
     {
-        $message = GeneralUtility::makeInstance(FlashMessage::class,
+        $message = GeneralUtility::makeInstance(
+            FlashMessage::class,
             'The IP adress ' . $blockLog->getIp() . ' has been moved to the whitelist.',
             $blockLog->getIp() . ' has been moved',
             FlashMessage::OK
