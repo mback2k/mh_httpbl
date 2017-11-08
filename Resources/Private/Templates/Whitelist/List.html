@@ -1,0 +1,65 @@
+<f:layout name="Backend"/>
+<f:section name="content">
+	<h1><f:translate key="whitelist.title" default="Listing for whitelist" /></h1>
+	<f:flashMessages/>
+
+	<f:comment>
+		Filter section
+	</f:comment>
+	<h2><f:translate key="whitelist.section.add" default="Add new IP to whitelist" /></h2>
+	<f:form action="add" objectName="whitelist" object="{whitelist}" class="form-inline form-inline-spaced">
+		<div class="form-group">
+			<label for="tx_mhhttpbl_add_ipAddress"><f:translate key="ipAddress" default="IP address" /></label>
+			<div class="form-group">
+				<f:form.textfield
+					id="tx_mhhttpbl_add_ipAddress"
+					class="form-control input-sm"
+					property="ip"
+				/>
+			</div>
+		</div>
+		<div class="form-group">
+			<f:form.submit value="{f:translate(key: 'add', default: 'Add')}" class="btn btn-default btn-sm" />
+		</div>
+	</f:form>
+
+	<h2><f:translate key="whitelist.section.list" default="Whitelisted IPs" /></h2>
+	<f:comment>
+		Filter section
+	</f:comment>
+	<f:render partial="Filters/Whitelist/Index" arguments="{demand: demand}"/>
+
+	<f:comment>
+		Listing of all whitelisted entries
+	</f:comment>
+	<f:be.widget.paginate objects="{entries}" as="paginatedEntries" configuration="{itemsPerPage: 50, insertBelow: 1}">
+		<div class="table-fit">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>
+							<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'time\')}', sortField: 'crdate', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+						</th>
+						<th class="col-title">
+							<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'ipAddress\')}', sortField: 'ip', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+						</th>
+						<th class="col-control"><f:translate key="whitelist.actions" default="Delete" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<f:for each="{paginatedEntries}" as="entry">
+						<f:render partial="Whitelist/ListRow" arguments="{entry: entry}" />
+					</f:for>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">
+							<f:count subject="{entries}"/>
+							<f:translate key="entries" default="entries" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</f:be.widget.paginate>
+</f:section>

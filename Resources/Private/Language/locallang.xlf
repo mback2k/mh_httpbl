@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-05-05T10:11:13Z"
+          product-name="mh_httpbl">
+        <header/>
+        <body>
+            <trans-unit id="time">
+                <source>Time</source>
+            </trans-unit>
+            <trans-unit id="ipAddress">
+                <source>IP Address</source>
+            </trans-unit>
+            <trans-unit id="score">
+                <source>Score</source>
+            </trans-unit>
+            <trans-unit id="count">
+                <source>Count</source>
+            </trans-unit>
+            <trans-unit id="type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="type.0">
+                <source>Search Engine</source>
+            </trans-unit>
+            <trans-unit id="type.1">
+                <source>Suspicious</source>
+            </trans-unit>
+            <trans-unit id="type.2">
+                <source>Harvester</source>
+            </trans-unit>
+            <trans-unit id="type.3">
+                <source>Suspicious &amp; Harvester</source>
+            </trans-unit>
+            <trans-unit id="type.4">
+                <source>Comment Spammer</source>
+            </trans-unit>
+            <trans-unit id="type.5">
+                <source>Suspicious &amp; Comment Spammer</source>
+            </trans-unit>
+            <trans-unit id="type.6">
+                <source>Harvester &amp; Comment Spammer</source>
+            </trans-unit>
+            <trans-unit id="type.7">
+                <source>Suspicious &amp; Harvester &amp; Comment Spammer</source>
+            </trans-unit>
+            <trans-unit id="enrties">
+                <source>entries</source>
+            </trans-unit>
+
+            <trans-unit id="filter.ipAddress">
+                <source>IP Address</source>
+            </trans-unit>
+            <trans-unit id="filter.submit">
+                <source>Filter</source>
+            </trans-unit>
+            <trans-unit id="action.delete">
+                <source>Delete this entry</source>
+            </trans-unit>
+            <trans-unit id="action.move">
+                <source>Move entry to whitelist</source>
+            </trans-unit>
+
+            <trans-unit id="blocklog.title">
+                <source>Listing for blocked data</source>
+            </trans-unit>
+            <trans-unit id="blocklog.actions">
+                <source>Whitelist &amp; Delete</source>
+            </trans-unit>
+
+            <trans-unit id="whitelist.title">
+                <source>Listing for whitelist</source>
+            </trans-unit>
+            <trans-unit id="whitelist.section.add">
+                <source>Add new IP to whitelist</source>
+            </trans-unit>
+            <trans-unit id="whitelist.section.list">
+                <source>Whitelisted IPs</source>
+            </trans-unit>
+            <trans-unit id="whitelist.actions">
+                <source>Delete</source>
+            </trans-unit>
+
+            <trans-unit id="iponly.title">
+                <source>IPs only</source>
+            </trans-unit>
+            <trans-unit id="iponly.lookup">
+                <source>View on Honey Pot</source>
+            </trans-unit>
+
+            <trans-unit id="status.title">
+                <source>Status</source>
+            </trans-unit>
+            <trans-unit id="status.section.accesskey">
+                <source>Accesskey</source>
+            </trans-unit>
+            <trans-unit id="status.section.type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="status.section.score">
+                <source>Score</source>
+            </trans-unit>
+            <trans-unit id="status.section.message">
+                <source>Message</source>
+            </trans-unit>
+            <trans-unit id="status.section.quicklink">
+                <source>Quicklink</source>
+            </trans-unit>
+            <trans-unit id="status.section.quicklink.test">
+                <source>Test quicklink</source>
+            </trans-unit>
+            <trans-unit id="status.section.debug">
+                <source>Debug</source>
+            </trans-unit>
+
+            <trans-unit id="extensionManager.accesskey">
+                <source>Your httpBL Access Key: Access Keys are 12-alpha characters (no numbers). They are lower-case. Get one from httpbl.org</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.type">
+                <source>Blocking type: IP type (bitfield) required for an IP to be blocked. 2 is recommended.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.score">
+                <source>Blocking score: IP score (bitfield) required for an IP to be blocked if type is greater than zero, 0 disables the additional check. 0 is recommended.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.message">
+                <source>Blocking message: The message that is send to blocked users. ###REQUEST_IP### and ###USER_TYPE### are valid placeholders.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.quicklink">
+                <source>Honey Pot QuickLink (optional): Add a Honey Pot link to your websites. It will be added before &lt;/body&gt; tag.</source>
+            </trans-unit>
+            <trans-unit id="extensionManager.debug">
+                <source>Log debug information via devLog(): If enabled, logging info will be written to devlog.</source>
+            </trans-unit>
+
+
+        </body>
+    </file>
+</xliff>

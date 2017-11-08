@@ -1,0 +1,23 @@
+<f:if condition="{currentSortField}=={sortField}">
+	<f:then>
+		<f:if condition="{currentSortRev}==1">
+			<f:then>
+				<f:link.action action="list" arguments="{demand: null, sortField : sortField, sortRev: 0}">
+					{title}
+					<core:icon identifier="status-status-sorting-desc" size="small"/>
+				</f:link.action>
+			</f:then>
+			<f:else>
+				<f:link.action action="list" arguments="{demand: null, sortField : sortField, sortRev: 1}">
+					{title}
+					<core:icon identifier="status-status-sorting-asc" size="small"/>
+				</f:link.action>
+			</f:else>
+		</f:if>
+	</f:then>
+	<f:else>
+		<f:link.action action="list" arguments="{demand: null, sortField : sortField, sortRev: sortRev}">
+			{title}
+		</f:link.action>
+	</f:else>
+</f:if>

@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<f:format.date format="Y-m-d H:i:s" date="{entry.crdate}"/>
+	</td>
+	<td class="col-title">
+		{entry.ip}
+	</td>
+	<td>
+		<f:link.action action="delete" arguments="{whitelist : entry}" title="{f:translate(key: 'action.delete', default: 'Delete')}" class="btn btn-default"><core:icon identifier="actions-edit-delete" size="small"/></f:link.action>
+	</td>
+</tr>

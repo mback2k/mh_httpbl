@@ -1,0 +1,16 @@
+
+<f:form action="list" objectName="demand" object="{demand}" class="form-inline form-inline-spaced">
+	<div class="form-group">
+		<label for="tx_mhhttpbl_ipAddress"><f:translate key="filter.ipAddress">IP address</f:translate></label>
+		<div class="form-group">
+			<f:form.textfield
+				id="tx_mhhttpbl_ipAddress"
+				class="form-control input-sm"
+				property="ipAddress"
+			/>
+		</div>
+	</div>
+	<div class="form-group">
+		<f:form.submit value="{f:translate(key: 'filter.submit', default: 'Filter')}" class="btn btn-default btn-sm" />
+	</div>
+</f:form>

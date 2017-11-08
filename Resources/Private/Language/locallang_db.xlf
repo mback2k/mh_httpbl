@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-04-26T15:11:13Z"
+          product-name="mh_httpbl">
+        <header/>
+        <body>
+            <trans-unit id="tx_mhhttpbl_blocklog">
+                <source>Block Log</source>
+            </trans-unit>
+            <trans-unit id="tx_mhhttpbl_blocklog.block_ip">
+                <source>IP Address</source>
+            </trans-unit>
+            <trans-unit id="tx_mhhttpbl_blocklog.block_type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="tx_mhhttpbl_blocklog.block_score">
+                <source>Score</source>
+            </trans-unit>
+            <trans-unit id="tx_mhhttpbl_whitelist">
+                <source>Whitelist</source>
+            </trans-unit>
+            <trans-unit id="tx_mhhttpbl_whitelist.whitelist_ip">
+                <source>IP Address</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

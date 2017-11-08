@@ -1,0 +1,38 @@
+<f:layout name="Backend"/>
+<f:section name="content">
+	<h1><f:translate key="iponly.title" default="IPs only" /></h1>
+	<f:flashMessages/>
+
+	<f:comment>
+		Listing of all blocked IPs
+	</f:comment>
+	<f:be.widget.paginate objects="{entries}" as="paginatedEntries" configuration="{itemsPerPage: 50, insertBelow: 1}">
+		<div class="table-fit">
+			<table class="table table-striped table-hover">
+				<thead>
+				<tr>
+					<th class="col-title">
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'ipAddress\')}', sortField: 'ip', sortRev: 0, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+					<th>
+						<f:render partial="ColumnTitleSortable" arguments="{title: '{f:translate(key: \'count\')}', sortField: 'count', sortRev: 1, currentSortField: sortField, currentSortRev: sortRev, demand: demand}" />
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+					<f:for each="{paginatedEntries}" as="entry">
+						<f:render partial="IpOnly/ListRow" arguments="{entry: entry}" />
+					</f:for>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<f:count subject="{entries}"/>
+							<f:translate key="entries" default="entries" />
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</f:be.widget.paginate>
+</f:section>

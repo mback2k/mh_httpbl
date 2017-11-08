@@ -1,0 +1,66 @@
+<f:layout name="Backend"/>
+<f:section name="content">
+	<h1>
+		<f:translate key="staus.title" default="Status"/>
+	</h1>
+	<f:flashMessages/>
+
+	<f:comment>
+		Show extension configuration
+	</f:comment>
+	<h2>
+		<f:translate key="status.section.accesskey" default="Accesskey"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.accesskey"/>
+	</p>
+	<pre>{accesskey}</pre>
+
+	<h2>
+		<f:translate key="status.section.type" default="Type"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.type"/>
+	</p>
+	<pre>{type}</pre>
+
+	<h2>
+		<f:translate key="status.section.score" default="Score"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.score"/>
+	</p>
+	<pre>{score}</pre>
+
+	<h2>
+		<f:translate key="status.section.message" default="Message"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.message"/>
+	</p>
+	<pre>{message}</pre>
+
+	<h2>
+		<f:translate key="status.section.quicklink" default="Quicklink"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.quicklink"/>
+	</p>
+	<f:if condition="{quicklink}">
+		<p>
+			<f:link.typolink parameter="{quicklink}">
+				<f:translate key="status.section.quicklink.test" default="Test quicklink"/>
+			</f:link.typolink>
+		</p>
+	</f:if>
+	<pre>{quicklink}</pre>
+
+	<h2>
+		<f:translate key="status.section.debug" default="Debug"/>
+	</h2>
+	<p>
+		<f:translate key="extensionManager.debug"/>
+	</p>
+	<pre>{debug}</pre>
+
+</f:section>
